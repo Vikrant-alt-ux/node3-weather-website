@@ -6,17 +6,17 @@ const forecast = require("./utils/forecast");
 
 const app = express();
 
-//Define path for Express config
+// Define path for Express config
 const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialspath = path.join(__dirname, "../templates/partials");
 
-//Setup handlebars engine and views location
+// Setup handlebars engine and views location
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
 hbs.registerPartials(partialspath);
 
-//setup static directory to serve
+// Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
 app.get("", (req, res) => {
@@ -28,7 +28,7 @@ app.get("", (req, res) => {
 
 app.get("/about", (req, res) => {
   res.render("about", {
-    title: "about",
+    title: "About",
     name: "vikrant M.",
   });
 });
@@ -36,7 +36,7 @@ app.get("/about", (req, res) => {
 app.get("/product", (req, res) => {
   if (!req.query.search) {
     return res.send({
-      error: "you must provide a search term",
+      error: "You must provide a search term",
     });
   }
   res.send({
@@ -46,14 +46,14 @@ app.get("/product", (req, res) => {
 
 app.get("/help", (req, res) => {
   res.render("help", {
-    title: "Its help page",
+    title: "Help page",
     name: "vikrant M.",
   });
 });
 
 app.get("/weather", (req, res) => {
   if (!req.query.address) {
-    return res.send("provide a valid address");
+    return res.send("Provide a valid address");
   }
 
   geocode(
@@ -61,7 +61,7 @@ app.get("/weather", (req, res) => {
     (error, { latitude, longitude, location } = {}) => {
       if (error) {
         return res.send({
-          error: "you must provide a valid address",
+          error: "You must provide a valid address",
         });
       }
 
@@ -83,10 +83,11 @@ app.get("*", (req, res) => {
   res.render("404", {
     title: "404",
     name: "vikrant M.",
-    errormessage: "its error",
+    errormessage: "It's an error",
   });
 });
 
-app.listen(3000, () => {
-  console.log("server is listining on 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
